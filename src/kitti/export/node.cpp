@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+#include <common/generic_sync_publisher.h>
+#include <common/camera_subscriber.h>
+#include <sensor_msgs/PointCloud2.h>
+
+int main(int argc, char** argv){
+	printf("Hallo Welt \n");
+
+	ros::init(argc, argv, "kitti_export");
+	ros::NodeHandle node;
+	ros::NodeHandle priv_nh("~");
+
+
+	//kitti::Generic_sync_publisher<sensor_msgs::PointCloud2> sync(node, priv_nh);
+	//kitti::Camera_subscriber sub;
+
+	ros::spin();
+
+	return 0;
+}
