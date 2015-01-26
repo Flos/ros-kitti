@@ -60,9 +60,8 @@ filenames::save_timestamp(std::string folder, unsigned int sequence, uint sec, u
 	outfile << sec << " " << nsec << "\n";
 }
 
-template <typename PointT>
 bool
-filenames::save_pointcloud(std::string data_root, pcl::PointCloud<PointT> &pointcloud, unsigned int sequence, uint sec, uint nsec, std::string folder_name){
+filenames::save_pointcloud(std::string data_root, pcl::PointCloud<pcl::PointXYZI> &pointcloud, unsigned int sequence, uint sec, uint nsec, std::string folder_name){
 	std::stringstream stream;
 
 	make_folder(data_root);

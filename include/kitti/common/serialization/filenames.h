@@ -27,11 +27,12 @@ namespace filenames {
 	bool save_camera_list(std::string data_root, Camera_list &camera_list);
 	bool save_tf_velo_to_camera0(std::string data_root, Tf &kitti_tf);
 	bool save_tf_velo_to_camera0(std::string data_root, tf::Transform &tf);
-	template <typename PointT>
-	bool save_pointcloud(std::string data_root, pcl::PointCloud<PointT> &pointcloud, unsigned int sequence, uint sec, uint nsec, std::string folder_name="velodyne_points");
+	bool save_pointcloud(std::string data_root, pcl::PointCloud<pcl::PointXYZI> &pointcloud, unsigned int sequence, uint sec, uint nsec, std::string folder_name="velodyne_points");
 	void save_timestamp(std::string folder, unsigned int sequence, uint sec, uint nsec);
 	std::string filenumber(unsigned int sequence);
 	bool make_folder(std::string &path);
+
+
 };
 
 

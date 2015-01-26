@@ -15,22 +15,21 @@
 #include <kitti/Sync_msg.h>
 
 
-
 #ifndef SRC_KITTI_CAMERA_SUBSCRIBER_H_
 #define SRC_KITTI_CAMERA_SUBSCRIBER_H_
 
 namespace kitti {
 
-class Camera_subscriber : public Generic_subscriber<sensor_msgs::ImageConstPtr> {
+class Camera_subscriber : public Generic_subscriber<sensor_msgs::Image, sensor_msgs::ImageConstPtr> {
 public:
 	Camera_subscriber();
 	virtual ~Camera_subscriber();
 
-	virtual bool init(ros::NodeHandle &nh, std::string topic_name, std::string data_root, int camera_nr = 0, int queue_size = 30, std::string sync_topic = "/kitti/sync");
+	virtual bool init(ros::NodeHandle &nh, std::string topic_name, std::string data_root, int camera_nr = 0, int queue_size = 30, std::string topic_sync = "/kitti/sync");
 	void create_image_info_sub(ros::NodeHandle &nh, std::string topic, int queue_size);
 
-	void callback(const sensor_msgs::ImageConstPtr &image, const kitti::Sync_msgConstPtr &sync);
-	void callback_info(const sensor_msgs::CameraInfoPtr &info);
+	void callback(const sensor_msgs::ImageConstPtr &image, const Sync_msgConstPtr &sync);
+	void callback_info(const sensor_msgs::CameraInfoConstPtr &info);
 
 	ros::Subscriber sub_info;
 

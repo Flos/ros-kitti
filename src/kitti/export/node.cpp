@@ -12,10 +12,17 @@ int main(int argc, char** argv){
 	ros::NodeHandle priv_nh("~");
 
 
-	//kitti::Generic_sync_publisher<sensor_msgs::PointCloud2> sync(node, priv_nh);
-	//kitti::Camera_subscriber sub;
+	kitti::Generic_sync_publisher<sensor_msgs::PointCloud2, sensor_msgs::PointCloud2ConstPtr> kitti_export (node, priv_nh);
+	kitti_export.init();
 
-	ros::spin();
+	//sub.init(node, "/image1","/tmp/",1, 5, "/sync");
 
+	ros::Rate rate(60);
+	while(node.ok()){
+		ros::spinOnce();
+		rate.sleep();
+	}
+
+	printf("kitti_export stopped \n");
 	return 0;
 }

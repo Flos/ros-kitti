@@ -14,13 +14,17 @@
 
 namespace kitti {
 
-class Pointcloud_subscriber: public Generic_subscriber<sensor_msgs::PointCloud2ConstPtr> {
+class Pointcloud_subscriber : public Generic_subscriber<sensor_msgs::PointCloud2, sensor_msgs::PointCloud2ConstPtr>{
+	typedef sensor_msgs::PointCloud2 Message_Type;
+	typedef sensor_msgs::PointCloud2ConstPtr Message_Type_Callback;
+	typedef message_filters::sync_policies::ApproximateTime<Message_Type, Message_Type> Filter;
 public:
 	Pointcloud_subscriber();
 	virtual ~Pointcloud_subscriber();
-	bool init(ros::NodeHandle &nh, std::string topic_name, std::string data_root, std::string folder_name, int queue_size, std::string sync_topic = "/kitti/sync");
-	void callback(const sensor_msgs::PointCloud2ConstPtr &message, const Sync_msgConstPtr &header);
+	bool init(ros::NodeHandle &nh, std::string topic_name, std::string data_root, std::string folder_name, int queue_size, std::string topic_sync = "/kitti/sync");
+	void callback(const Message_Type_Callback &message, const Sync_msgConstPtr &header);
 	std::string folder_name;
+
 };
 
 } /* namespace kitti */

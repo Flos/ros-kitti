@@ -18,7 +18,7 @@ Pointcloud_subscriber::~Pointcloud_subscriber() {
 }
 
 void
-Pointcloud_subscriber::callback(const sensor_msgs::PointCloud2ConstPtr &message, const Sync_msgConstPtr &header) {
+Pointcloud_subscriber::callback(const Message_Type_Callback &message, const Sync_msgConstPtr &header) {
 	frame_id = message->header.frame_id;
 
 	pcl::PointCloud<pcl::PointXYZI> cloud;
@@ -28,10 +28,10 @@ Pointcloud_subscriber::callback(const sensor_msgs::PointCloud2ConstPtr &message,
 }
 
 bool
-Pointcloud_subscriber::init(ros::NodeHandle &nh, std::string topic_name, std::string data_root, std::string folder_name, int queue_size, std::string sync_topic ) {
-	Generic_subscriber::init(nh, topic_name, data_root, queue_size, sync_topic);
-
+Pointcloud_subscriber::init(ros::NodeHandle &nh, std::string topic_name, std::string data_root, std::string folder_name, int queue_size, std::string topic_sync ) {
+	Generic_subscriber::init(nh, topic_name, data_root, queue_size, topic_sync);
 	this->folder_name = folder_name;
+
 	return true;
 }
 

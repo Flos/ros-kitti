@@ -120,7 +120,6 @@ include_directories(
 )
 
 set(common
-  src/${PROJECT_NAME}/common/generic_subscriber.cpp
   src/${PROJECT_NAME}/common/camera_subscriber.cpp
   src/${PROJECT_NAME}/common/pointcloud_subscriber.cpp
   src/${PROJECT_NAME}/common/generic_sync_publisher.cpp
@@ -131,6 +130,7 @@ set(common
   src/${PROJECT_NAME}/common/serialization/filenames.cpp
   src/${PROJECT_NAME}/common/serialization/serializable.cpp
   src/${PROJECT_NAME}/common/serialization/tf.cpp
+  src/${PROJECT_NAME}/common/generic_subscriber.cpp
 )
 
 ## Declare a cpp library
