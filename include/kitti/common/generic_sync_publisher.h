@@ -93,6 +93,11 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::~Generic_sync_publisher() {
 template <typename MessageT, typename MessageTConstPtr>
 void
 Generic_sync_publisher<MessageT, MessageTConstPtr>::init(){
+	// Set up dynamic reconfigure
+	reconfigure_server.reset(new ReconfigureServer(nh_private));
+	ReconfigureServer::CallbackType f = boost::bind(&Generic_sync_publisher<MessageT, MessageTConstPtr>::reconfigure_callback, this, _1, _2);
+	reconfigure_server->setCallback(f);
+
 	init_param();
 	print_param();
 
@@ -101,7 +106,7 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::init(){
 	camera_nodes.resize(config_processed.image_topics.size());
 	for(int i = 0; i < config_processed.image_topics.size(); ++i){
 		camera_nodes.at(i).reset( new Camera_subscriber() );
-		camera_nodes.at(i)->init(nh, config_processed.image_topics.at(i), config.data_destination, i, config.queue_size);
+		camera_nodes.at(i)->init(nh, config_processed.image_topics.at(i), config.data_prefix, i, config.queue_size);
 		camera_nodes.at(i)->create_image_info_sub(nh, config_processed.image_topics_info.at(i), config.queue_size);
 	}
 
@@ -114,26 +119,18 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::init(){
 			folder_name << i;
 		}
 		pointcloud_nodes.at(i).reset(new Pointcloud_subscriber());
-		pointcloud_nodes.at(i)->init(nh, config_processed.pointcloud_topics.at(i), config.data_destination, folder_name.str(), config.queue_size);
+		pointcloud_nodes.at(i)->init(nh, config_processed.pointcloud_topics.at(i), config.data_prefix, folder_name.str(), config.queue_size);
 	}
 //
 //	// todo: init imu nodes
 //	//
 //	//
 //
-	printf("init pub %s\n", config.sync_topic.c_str());
-
 
 	listener_transform.reset(new tf::TransformListener(nh, ros::Duration(config.tf_buffer_length), true));
-	printf("init pub %s\n", config.sync_topic.c_str());
 	pub = nh.advertise<Sync_msg>(config.publish_topic, 1);
 	sub = nh.subscribe<MessageT>(config.sync_topic,1, boost::bind(&Generic_sync_publisher<MessageT,MessageTConstPtr>::callback, this, _1));
-	printf("init done\n");
 
-	// Set up dynamic reconfigure
-	reconfigure_server.reset(new ReconfigureServer(nh));
-	ReconfigureServer::CallbackType f = boost::bind(&Generic_sync_publisher<MessageT, MessageTConstPtr>::reconfigure_callback, this, _1, _2);
-	reconfigure_server->setCallback(f);
 }
 
 template <typename MessageT, typename MessageTConstPtr>
@@ -147,6 +144,8 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::init_param(){
 	nh_private.getParam("publish", config.enabled);
 	nh_private.getParam("sequence",config.sequence);
 	nh_private.getParam("sync_topic",config.sync_topic);
+
+	assert(config.data_prefix.length() > 1); // dont allow to write to root "/"
 
 	assert(config_processed.image_topics.size() == config_processed.image_topics_info.size() );
 	assert(config_processed.image_topics.size() > 0);
@@ -166,6 +165,10 @@ void
 Generic_sync_publisher<MessageT, MessageTConstPtr>::print_param(){
 	ROS_INFO("sync_topic:\t %s", config.sync_topic.c_str());
 	ROS_INFO("Sequence:\t %u", config.sequence);
+	ROS_INFO("publish_topic:\t %s", config.publish_topic.c_str());
+	ROS_INFO("data_prefix:\t %s", config.data_prefix.c_str());
+	ROS_INFO("tf_buffer_length:\t %d", config.tf_buffer_length);
+	ROS_INFO("queue_size:\t %d", config.queue_size);
 	ROS_INFO("Enabled:\t %d", config.enabled);
 }
 
@@ -224,7 +227,7 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::tf_export(){
 							ros::Time::Time(0),	/* time */
 							tf_velo_to_camera0);
 
-		kitti::filenames::save_tf_velo_to_camera0(config.data_destination, tf_velo_to_camera0);
+		kitti::filenames::save_tf_velo_to_camera0(config.data_prefix, tf_velo_to_camera0);
 	}
 
 	// todo: Export calib_imu_to_velo
@@ -238,7 +241,7 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::tf_export(){
 //								ros::Time::Time(0),	/* time */
 //								calib_imu_to_velo);
 //
-//			save.save_tf_velo_to_camera0(config.data_destination, tf_velo_to_camera0);
+//			save.save_tf_velo_to_camera0(config.data_prefix, tf_velo_to_camera0);
 //		}
 	}
 	tf_exported = true;
@@ -255,7 +258,7 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::camera_list_export(){
 		cam_list.cameras.push_back(camera_nodes.at(i)->calibration);
 	}
 
-	if( filenames::save_camera_list(config.data_destination, cam_list) ) {
+	if( filenames::save_camera_list(config.data_prefix, cam_list) ) {
 		calibration_exported = true;
 	}
 	else{
@@ -274,7 +277,6 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::reconfigure_callback(Config 
 template <typename MessageT, typename MessageTConstPtr>
 void
 Generic_sync_publisher<MessageT, MessageTConstPtr>::callback(const MessageTConstPtr &message){
-	printf("callback \n");
 	if(!config.enabled) return; //if publishing not enabled do nothing
 			kitti::Sync_msg sync_msg;
 
@@ -286,7 +288,6 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::callback(const MessageTConst
 			if(!tf_exported){
 				tf_export();
 			}
-			printf("callback processed\n");
 	}
 
 } /* namespace kitti */

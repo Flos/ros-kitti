@@ -31,7 +31,6 @@ Camera_subscriber::create_image_info_sub( ros::NodeHandle &nh, std::string topic
 void
 Camera_subscriber::callback(const sensor_msgs::ImageConstPtr &image, const Sync_msgConstPtr &sync){
 	cv_bridge::CvImagePtr cv_bridge_image = cv_bridge::toCvCopy(image);
-
 	filenames::save_image_file(data_root, cv_bridge_image->image, sync->header.seq, calibration.camera_nr, image->header.stamp.sec, image->header.stamp.nsec );
 }
 
