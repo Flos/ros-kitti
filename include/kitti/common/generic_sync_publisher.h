@@ -115,7 +115,7 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::init(){
 	for(int i = 0; i < config_processed.pointcloud_topics.size(); ++i){
 		std::stringstream folder_name;
 		folder_name << "velodyne_points";
-		if(i != 0){
+		if(i != 0){ // Compatibility reasons
 			folder_name << i;
 		}
 		pointcloud_nodes.at(i).reset(new Pointcloud_subscriber());
@@ -128,8 +128,9 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::init(){
 //
 
 	listener_transform.reset(new tf::TransformListener(nh, ros::Duration(config.tf_buffer_length), true));
+
 	pub = nh.advertise<Sync_msg>(config.publish_topic, 1);
-	sub = nh.subscribe<MessageT>(config.sync_topic,1, boost::bind(&Generic_sync_publisher<MessageT,MessageTConstPtr>::callback, this, _1));
+	sub = nh.subscribe<MessageT>(config.sync_topic, 1, boost::bind(&Generic_sync_publisher<MessageT,MessageTConstPtr>::callback, this, _1));
 
 }
 
