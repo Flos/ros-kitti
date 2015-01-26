@@ -134,19 +134,19 @@ set(common
 )
 
 ## Declare a cpp library
-#add_library(export
-#  src/${PROJECT_NAME}/export/node.cpp
-#  ${common}
-#)
+add_library(kitti_export
+  src/${PROJECT_NAME}/export/nodelet.cpp
+  ${common}
+)
 
-#add_dependencies(export
-#  ${PROJECT_NAME}_gencfg
-#  ${PROJECT_NAME}_generate_messages_cpp
-#)
+add_dependencies(kitti_export
+  ${PROJECT_NAME}_gencfg
+  ${PROJECT_NAME}_generate_messages_cpp
+)
 
-#target_link_libraries(export
-#  ${catkin_LIBRARIES}
-#)
+target_link_libraries(kitti_export
+  ${catkin_LIBRARIES}
+)
 
 add_executable(export_node
   src/${PROJECT_NAME}/export/node.cpp

@@ -1,0 +1,40 @@
+<launch>
+	<arg name="nodelet_manager"  />
+	<arg name="sync_topic" />
+	<arg name="subscribe_topics_pcl"/>
+	<arg name="pcl_frame_ids" 					default=""/> 	
+	<arg name="subscribe_topics_image"	/>
+	<arg name="subscribe_topics_image_info"     default=""/>
+	<arg name="camera_frame_ids" 				default=""/>
+	<arg name="name"							default="kitti_export" />
+	
+	<arg name="publish_topic"					default="/kitti/sync" />
+	<arg name="data_prefix"						default="/tmp/kitti"/>
+	<arg name="sequence"						default="0" />
+	<arg name="tf_buffer_length"				default="30"/>
+	<arg name="queue_size"						default="30" />
+	<arg name="enabled"							default="1" />
+
+	 <group ns="kitti">
+	  	<node pkg="nodelet" type="nodelet" name="Export_nodelet" args="load kitti/Export_nodelet $(arg nodelet_manager)" output="screen">    
+		    	<rosparam param="subscribe_topics_pcl" 			subst_value="True">$(arg subscribe_topics_pcl)</rosparam>
+			  	<rosparam param="pcl_frame_ids"					subst_value="True">$(arg pcl_frame_ids)</rosparam>	
+			  
+			  	<rosparam param="subscribe_topics_image" 		subst_value="True">$(arg subscribe_topics_image)</rosparam>
+			  	
+			  	<rosparam param="subscribe_topics_image_info"  	subst_value="True">$(arg subscribe_topics_image_info)</rosparam>
+			  	<rosparam param="camera_frame_ids" 				subst_value="True">$(arg camera_frame_ids)</rosparam>
+			  	
+			  	<param name="sync_topic"  					value="$(arg sync_topic)" />
+			  	<param name="publish_topic"					value="$(arg publish_topic)"	/>  
+			  	
+			  	<param name="data_prefix" 					value="$(arg data_prefix)" />
+			  	<param name="sequence" 						value="$(arg sequence)" />
+			  	
+			  	<param name="tf_buffer_length"  			value="$(arg tf_buffer_length)" />
+			  	<param name="queue_size"					value="$(arg queue_size)"	/>
+			  	
+			  	<param name="enabled" 						value="$(arg enabled)" />
+	    </node>
+    </group>           
+</launch>

@@ -37,6 +37,7 @@ Tf::get_rotation(tf::Matrix3x3 &rotation){
 
 void
 Tf::set_transform(tf::Transform tf){
+
 	tf::Matrix3x3 mat = tf.getBasis();
 	R[0] = mat[0][0];
 	R[1] = mat[0][1];
@@ -51,6 +52,8 @@ Tf::set_transform(tf::Transform tf){
 	T[0] = tf.getOrigin()[0];
 	T[1] = tf.getOrigin()[1];
 	T[2] = tf.getOrigin()[2];
+	printf("set transform: %s\n",to_string().c_str());
+
 }
 
 bool

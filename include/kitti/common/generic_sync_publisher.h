@@ -200,7 +200,16 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::tf_export(){
 		tf::StampedTransform tf;
 		if(i != 0){
 			try{
-			listener_transform->lookupTransform(
+				std::string source_frame = camera_nodes.at(0)->calibration.frame_id.c_str();
+				std::string target_frame = camera_nodes.at(i)->calibration.frame_id.c_str();
+				std::string tf_error;
+				printf("looking from tf %s to %s\n", source_frame.c_str(), target_frame.c_str());
+
+				if(!listener_transform->waitForTransform( target_frame.c_str(), source_frame.c_str(), ros::Time(0), ros::Duration(3.0), ros::Duration(0.1), &tf_error)){
+					printf("Kitti export: Tf error %s", tf_error.c_str());
+					return;
+				}
+				listener_transform->lookupTransform(
 					camera_nodes.at(i)->calibration.frame_id.c_str(), /* target frame */
 					camera_nodes.at(0)->calibration.frame_id.c_str(), /* source frame  */
 					ros::Time::Time(0),	/* time */

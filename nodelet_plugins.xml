@@ -1,0 +1,7 @@
+<library path="lib/libkitti_export">
+  <class name="kitti/Export_nodelet" type="kitti::Export_nodelet" base_class_type="nodelet::Nodelet">
+  <description>
+  			export images, tfs, timestamps, pointclouds, to a kitti compatible dataset
+  </description>
+  </class>
+</library>
