@@ -10,7 +10,7 @@
 namespace kitti {
 
 Pointcloud_subscriber::Pointcloud_subscriber() {
-
+	valid = false;
 }
 
 Pointcloud_subscriber::~Pointcloud_subscriber() {
@@ -21,10 +21,14 @@ void
 Pointcloud_subscriber::callback(const Message_Type_Callback &message, const Sync_msgConstPtr &header) {
 	frame_id = message->header.frame_id;
 
+	//printf("poitncloud callback frame_id: %s, %s, %d\n", frame_id.c_str(), message->header.frame_id.c_str(), valid);
+
+
 	pcl::PointCloud<pcl::PointXYZI> cloud;
 	pcl::fromROSMsg(*message, cloud);
 
 	filenames::save_pointcloud(data_root, cloud, header->header.seq, message->header.stamp.sec, message->header.stamp.nsec, folder_name);
+	valid = true;
 }
 
 bool

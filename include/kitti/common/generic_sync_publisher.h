@@ -127,7 +127,7 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::init(){
 //	//
 //
 
-	listener_transform.reset(new tf::TransformListener(nh, ros::Duration(config.tf_buffer_length), true));
+	listener_transform.reset(new tf::TransformListener(nh, ros::Duration(config.tf_buffer_length)));
 
 	pub = nh.advertise<Sync_msg>(config.publish_topic, 1);
 	sub = nh.subscribe<MessageT>(config.sync_topic, 1, boost::bind(&Generic_sync_publisher<MessageT,MessageTConstPtr>::callback, this, _1));
@@ -189,6 +189,9 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::tf_export(){
 		}
 	}
 
+	if(!pointcloud_nodes.at(0)->valid && config_processed.pointcloud_frame_ids.at(0).empty() ) return;
+
+	ros::Time time = ros::Time::now();
 	// Set frame ids, look up and set transforms cam0_to_camX
 	for(int i = 0; i < camera_nodes.size(); ++i){
 		// if frame_id is provided use it instead
@@ -205,20 +208,21 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::tf_export(){
 				std::string tf_error;
 				printf("looking from tf %s to %s\n", source_frame.c_str(), target_frame.c_str());
 
-				if(!listener_transform->waitForTransform( target_frame.c_str(), source_frame.c_str(), ros::Time(0), ros::Duration(3.0), ros::Duration(0.1), &tf_error)){
+				if(!listener_transform->waitForTransform( target_frame.c_str(), source_frame.c_str(), time, ros::Duration(3.0), ros::Duration(0.1), &tf_error)){
 					printf("Kitti export: Tf error %s", tf_error.c_str());
 					return;
 				}
 				listener_transform->lookupTransform(
 					camera_nodes.at(i)->calibration.frame_id.c_str(), /* target frame */
 					camera_nodes.at(0)->calibration.frame_id.c_str(), /* source frame  */
-					ros::Time::Time(0),	/* time */
+					time,	/* time */
 					tf); /* transfrom */
 			}catch (std::exception &e){
 				ROS_WARN("Kitti export: transform look up failed: %s", e.what());
 				return;
 			}
 
+			//printf("transform: %f %f %f rot: %f %f %f\n", tf.getOrigin()[0],tf.getOrigin()[1],tf.getOrigin()[2], tf.getRotation()[0], tf.getRotation()[1], tf.getRotation()[2], tf.getRotation()[3]);
 			// set the transform
 			camera_nodes.at(i)->calibration.tf.set_transform(tf);
 			camera_nodes.at(i)->calibration.tf_rect.set_transform(tf);
@@ -231,12 +235,36 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::tf_export(){
 	// Export calib_velo_to_cam0
 	{
 		tf::StampedTransform tf_velo_to_camera0;
-		listener_transform->lookupTransform(
-							camera_nodes.at(0)->calibration.frame_id.c_str(), /* target frame */
-							pointcloud_nodes.at(0)->frame_id.c_str(), /* source frame  */
-							ros::Time::Time(0),	/* time */
-							tf_velo_to_camera0);
 
+		try{
+			std::string source_frame = config_processed.pointcloud_frame_ids.at(0).c_str();
+			std::string target_frame = camera_nodes.at(0)->calibration.frame_id.c_str();
+			std::string tf_error;
+
+			if(source_frame.empty())
+			{
+				source_frame = pointcloud_nodes.at(0)->frame_id.c_str();
+			}
+
+			printf("looking from tf %s to %s\n", source_frame.c_str(), target_frame.c_str());
+
+
+			if(!listener_transform->waitForTransform( target_frame.c_str(), source_frame.c_str(), time, ros::Duration(3.0), ros::Duration(0.1), &tf_error)){
+				printf("Kitti export: Tf error %s", tf_error.c_str());
+				return;
+			}
+
+			listener_transform->lookupTransform(
+								source_frame, /* target frame */
+								target_frame, /* source frame  */
+								time,	/* time */
+								tf_velo_to_camera0);
+		}
+		catch(std::exception &e)
+		{
+				ROS_WARN("Kitti export: transform look up failed: %s", e.what());
+				return;
+		}
 		kitti::filenames::save_tf_velo_to_camera0(config.data_prefix, tf_velo_to_camera0);
 	}
 

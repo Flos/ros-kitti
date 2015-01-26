@@ -24,6 +24,7 @@ public:
 	bool init(ros::NodeHandle &nh, std::string topic_name, std::string data_root, std::string folder_name, int queue_size, std::string topic_sync = "/kitti/sync");
 	void callback(const Message_Type_Callback &message, const Sync_msgConstPtr &header);
 	std::string folder_name;
+	bool valid;
 
 };
 

@@ -52,7 +52,7 @@ Tf::set_transform(tf::Transform tf){
 	T[0] = tf.getOrigin()[0];
 	T[1] = tf.getOrigin()[1];
 	T[2] = tf.getOrigin()[2];
-	printf("set transform: %s\n",to_string().c_str());
+	//printf("set transform: %s\n",to_string().c_str());
 
 }
 
