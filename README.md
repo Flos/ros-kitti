@@ -1,5 +1,5 @@
-# ros-kitti_export
-Export Images, calibrations, transforms and Pointclouds from ROS to a kitti Vision benchmark compatible dataset
+# ros-kitti
+Export images, calibrations, transforms and pointclouds from ROS to a kitti Vision benchmark compatible dataset
 
 - missing imu data support
 
