@@ -40,7 +40,7 @@ filenames::save_camera_list(std::string data_root, Camera_list &camera_list){
 
 bool
 filenames::save_tf_velo_to_camera0(std::string data_root, Tf &kitti_tf){
-	return save_tf(data_root, "velo_to_cam.txt", kitti_tf);
+	return save_tf(data_root, "calib_velo_to_cam.txt", kitti_tf);
 }
 
 bool
@@ -48,7 +48,7 @@ filenames::save_tf_velo_to_camera0(std::string data_root, tf::Transform &tf){
 	kitti::Tf kitti_tf;
 	kitti_tf.set_transform(tf);
 
-	return save_tf(data_root, "velo_to_cam.txt", kitti_tf);
+	return save_tf(data_root, "calib_velo_to_cam.txt", kitti_tf);
 }
 
 bool
