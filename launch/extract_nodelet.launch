@@ -16,7 +16,7 @@
 	<arg name="enabled"							default="1" />
 
 	 <group ns="kitti">
-	  	<node pkg="nodelet" type="nodelet" name="Export_nodelet" args="load kitti/Export_nodelet $(arg nodelet_manager)" output="screen">    
+	  	<node pkg="nodelet" type="nodelet" name="Export_nodelet" args="load kitti/Export_nodelet /$(arg nodelet_manager)" output="screen">    
 		    	<rosparam param="subscribe_topics_pcl" 			subst_value="True">$(arg subscribe_topics_pcl)</rosparam>
 			  	<rosparam param="pcl_frame_ids"					subst_value="True">$(arg pcl_frame_ids)</rosparam>	
 			  
