@@ -24,6 +24,12 @@ Camera_subscriber::init(ros::NodeHandle &nh, std::string topic_name, std::string
 }
 
 void
+Camera_subscriber::setFrame_id(std::string frame_id){
+	calibration.frame_id = frame_id;
+	Generic_subscriber::setFrame_id(frame_id);
+}
+
+void
 Camera_subscriber::create_image_info_sub( ros::NodeHandle &nh, std::string topic, int queue_size){
 	sub_info = nh.subscribe<sensor_msgs::CameraInfo>(topic, queue_size, boost::bind(&Camera_subscriber::callback_info, this, _1) );
 }
@@ -37,7 +43,13 @@ Camera_subscriber::callback(const sensor_msgs::ImageConstPtr &image, const Sync_
 void
 Camera_subscriber::callback_info(const sensor_msgs::CameraInfoConstPtr &info){
 	calibration.set_camera_info(*info);
-	frame_id = info->header.frame_id;
+
+	if(!valid){
+		setFrame_id(info->header.frame_id);
+	}
+	else{
+		setFrame_id(frame_id); // overwrite camera_info "frame_id" with the set
+	}
 	calibration_valid = true;
 
 	//unsubscribe after retrieving the calibration

@@ -98,9 +98,11 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::init(){
 	ReconfigureServer::CallbackType f = boost::bind(&Generic_sync_publisher<MessageT, MessageTConstPtr>::reconfigure_callback, this, _1, _2);
 	reconfigure_server->setCallback(f);
 
+
 	init_param();
 	print_param();
 
+	listener_transform.reset(new tf::TransformListener(nh, ros::Duration(config.tf_buffer_length)));
 
 	// init camera nodes;
 	camera_nodes.resize(config_processed.image_topics.size());
@@ -108,6 +110,9 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::init(){
 		camera_nodes.at(i).reset( new Camera_subscriber() );
 		camera_nodes.at(i)->init(nh, config_processed.image_topics.at(i), config.data_prefix, i, config.queue_size);
 		camera_nodes.at(i)->create_image_info_sub(nh, config_processed.image_topics_info.at(i), config.queue_size);
+		if( !config_processed.image_frame_ids.at(i).empty()){
+			camera_nodes.at(i)->setFrame_id(config_processed.image_frame_ids.at(i));
+		}
 	}
 
 	// init pointcloud nodes
@@ -119,15 +124,21 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::init(){
 			folder_name << i;
 		}
 		pointcloud_nodes.at(i).reset(new Pointcloud_subscriber());
-		pointcloud_nodes.at(i)->init(nh, config_processed.pointcloud_topics.at(i), config.data_prefix, folder_name.str(), config.queue_size);
+		pointcloud_nodes.at(i)->init(nh, config_processed.pointcloud_topics.at(i), config.data_prefix,
+				folder_name.str(), config.queue_size);
+
+		if( !config_processed.pointcloud_frame_ids.at(i).empty()){
+			pointcloud_nodes.at(i)->setFrame_id(config_processed.pointcloud_frame_ids.at(i));
+		}
 	}
+
 //
 //	// todo: init imu nodes
 //	//
 //	//
 //
 
-	listener_transform.reset(new tf::TransformListener(nh, ros::Duration(config.tf_buffer_length)));
+
 
 	pub = nh.advertise<Sync_msg>(config.publish_topic, 1);
 	sub = nh.subscribe<MessageT>(config.sync_topic, 1, boost::bind(&Generic_sync_publisher<MessageT,MessageTConstPtr>::callback, this, _1));
@@ -189,15 +200,11 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::tf_export(){
 		}
 	}
 
-	if(!pointcloud_nodes.at(0)->valid && config_processed.pointcloud_frame_ids.at(0).empty() ) return;
+	if(!pointcloud_nodes.at(0)->valid ) return;
 
 	ros::Time time = ros::Time::now();
 	// Set frame ids, look up and set transforms cam0_to_camX
 	for(int i = 0; i < camera_nodes.size(); ++i){
-		// if frame_id is provided use it instead
-		if(!config_processed.image_frame_ids.at(i).empty()){
-			camera_nodes.at(i)->calibration.frame_id = config_processed.image_frame_ids.at(i);
-		}
 
 		// if its not camera 0 look up transform from 0 to cam i
 		tf::StampedTransform tf;

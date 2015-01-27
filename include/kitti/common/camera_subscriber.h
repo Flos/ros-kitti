@@ -31,6 +31,8 @@ public:
 	void callback(const sensor_msgs::ImageConstPtr &image, const Sync_msgConstPtr &sync);
 	void callback_info(const sensor_msgs::CameraInfoConstPtr &info);
 
+	void setFrame_id(std::string frame_id);
+
 	ros::Subscriber sub_info;
 
 	bool calibration_valid;

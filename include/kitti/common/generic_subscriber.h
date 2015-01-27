@@ -24,11 +24,19 @@ template <typename Message_Type, typename Message_Type_Callback>
 class Generic_subscriber {
 	typedef message_filters::sync_policies::ApproximateTime<Message_Type, Sync_msg> Filter;
 public:
-	Generic_subscriber(){};
+	Generic_subscriber(){ valid = false; };
 	virtual ~Generic_subscriber(){};
 	virtual void callback(const Message_Type_Callback &message, const Sync_msgConstPtr &header) = 0;
 	std::string data_root;
 	std::string frame_id;
+	bool valid;
+
+	virtual void setFrame_id(std::string frame_id){
+		if(!valid){
+			this->frame_id = frame_id;
+			valid = true;
+		}
+	}
 
 protected:
 	virtual void init(ros::NodeHandle &nh, std::string topic_name, std::string data_root, int queue_size = 30, std::string topic_sync = "/kitti/sync"){
