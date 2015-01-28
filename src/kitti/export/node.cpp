@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-#include <common/generic_sync_publisher.h>
-#include <common/camera_subscriber.h>
+#include <kitti/common/generic_sync_publisher.h>
+#include <kitti/common/camera_subscriber.h>
 #include <sensor_msgs/PointCloud2.h>
 
 int main(int argc, char** argv){
-	printf("Hallo Welt \n");
+	printf("Starting kitti_export \n");
 
 	ros::init(argc, argv, "kitti_export");
 	ros::NodeHandle node;

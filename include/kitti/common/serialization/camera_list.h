@@ -5,8 +5,8 @@
  *      Author: fnolden
  */
 
-#include <common/serialization/serializable.h>
-#include <common/serialization/camera.h>
+#include <kitti/common/serialization/serializable.h>
+#include <kitti/common/serialization/camera.h>
 
 #ifndef SRC_GUI_KITTI_CAMERA_LIST_H_
 #define SRC_GUI_KITTI_CAMERA_LIST_H_

@@ -6,7 +6,7 @@
  */
 
 
-#include <common/camera_subscriber.h>
+#include <kitti/common/camera_subscriber.h>
 
 namespace kitti {
 

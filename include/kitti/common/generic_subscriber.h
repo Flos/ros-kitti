@@ -12,7 +12,7 @@
 #include <message_filters/synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
 
-#include <common/serialization/filenames.h>
+#include <kitti/common/serialization/filenames.h>
 
 #ifndef SRC_KITTI_EXPORT_COMMON_GENERIC_SUBSCRIBER_H_
 #define SRC_KITTI_EXPORT_COMMON_GENERIC_SUBSCRIBER_H_

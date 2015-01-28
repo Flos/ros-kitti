@@ -8,7 +8,7 @@
 #ifndef INCLUDE_KITTI_POINTCLOUD_SUBSCRIBER_H_
 #define INCLUDE_KITTI_POINTCLOUD_SUBSCRIBER_H_
 
-#include <common/generic_subscriber.h>
+#include <kitti/common/generic_subscriber.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl_ros/point_cloud.h>
 #include <pcl_ros/transforms.h>

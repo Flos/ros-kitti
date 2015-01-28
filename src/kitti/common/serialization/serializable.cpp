@@ -5,7 +5,7 @@
  *      Author: fnolden
  */
 
-#include <common/serialization/serializable.h>
+#include <kitti/common/serialization/serializable.h>
 
 namespace kitti {
 

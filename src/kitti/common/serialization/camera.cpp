@@ -5,7 +5,7 @@
  *      Author: fnolden
  */
 
-#include <common/serialization/camera.h>
+#include <kitti/common/serialization/camera.h>
 
 namespace kitti{
 

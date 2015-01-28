@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <common/generic_sync_publisher.h>
+#include <kitti/common/generic_sync_publisher.h>
 #include <sensor_msgs/PointCloud2.h>
 
 #include <nodelet/nodelet.h>

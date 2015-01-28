@@ -8,8 +8,8 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include <common/serialization/camera_list.h>
-#include <common/serialization/tf.h>
+#include <kitti/common/serialization/camera_list.h>
+#include <kitti/common/serialization/tf.h>
 #include <tf/tf.h>
 #include <string>
 #include <stdio.h>

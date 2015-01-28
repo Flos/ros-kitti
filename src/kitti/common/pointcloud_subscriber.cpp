@@ -5,7 +5,7 @@
  *      Author: fnolden
  */
 
-#include <common/pointcloud_subscriber.h>
+#include <kitti/common/pointcloud_subscriber.h>
 
 namespace kitti {
 

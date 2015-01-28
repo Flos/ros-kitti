@@ -5,7 +5,7 @@
  *      Author: fnolden
  */
 
-#include <common/generic_sync_publisher.h>
+#include <kitti/common/generic_sync_publisher.h>
 
 namespace kitti {
 

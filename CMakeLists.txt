@@ -95,7 +95,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES kitti
-  CATKIN_DEPENDS image_geometry image_transport pcl_conversions pcl_ros OpenCV PCL boost cv_bridge nodelet roscpp rospy rostime sensor_msgs std_msgs tf
+  CATKIN_DEPENDS image_geometry image_transport pcl_conversions pcl_ros cv_bridge nodelet roscpp rospy rostime sensor_msgs std_msgs tf
   DEPENDS system_lib
 )
 
@@ -103,10 +103,23 @@ catkin_package(
 ## Build ##
 ###########
 
+find_package(OpenCV REQUIRED)
+find_package(Boost REQUIRED)
 find_package(PCL 1.7 REQUIRED)
-include_directories(BEFORE ${PCL_INCLUDE_DIRS})
-link_directories(${PCL_LIBRARY_DIRS})
-add_definitions(${PCL_DEFINITIONS})
+
+include_directories(BEFORE 	${PCL_INCLUDE_DIRS}  
+							${OpenCV_INCLUDE_DIRS}
+  							${Boost_INCLUDE_DIRS}
+)
+
+link_directories(${PCL_LIBRARY_DIRS}
+				 ${OpenCV_LIBRARY_DIRS}
+)
+
+add_definitions( ${PCL_DEFINITIONS}
+				 ${OpenCV_DEFINITIONS}
+)
+
 if (NOT PCL_FOUND)
     MESSAGE(FATAL_ERROR "PCL not found.\n")
 endif (NOT PCL_FOUND)
@@ -116,7 +129,7 @@ endif (NOT PCL_FOUND)
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
-   include/kitti
+  include
 )
 
 set(common
@@ -136,16 +149,17 @@ set(common
 ## Declare a cpp library
 add_library(kitti_export
   src/${PROJECT_NAME}/export/nodelet.cpp
-  ${common}
 )
 
 add_dependencies(kitti_export
   ${PROJECT_NAME}_gencfg
   ${PROJECT_NAME}_generate_messages_cpp
+  kitti
 )
 
 target_link_libraries(kitti_export
   ${catkin_LIBRARIES}
+  kitti
 )
 
 add_executable(export_node
@@ -156,11 +170,26 @@ add_executable(export_node
 add_dependencies(export_node
   ${PROJECT_NAME}_gencfg
   ${PROJECT_NAME}_generate_messages_cpp
+  kitti
 )
 
 target_link_libraries(export_node
   ${catkin_LIBRARIES}
-  #export
+  kitti
+)
+
+## Create lib to share
+add_library(kitti
+  ${common}
+)
+
+add_dependencies(kitti
+  ${PROJECT_NAME}_gencfg
+  ${PROJECT_NAME}_generate_messages_cpp
+)
+
+target_link_libraries(kitti
+  ${catkin_LIBRARIES}
 )
 
 

@@ -9,8 +9,8 @@
 #include <cv_bridge/cv_bridge.h>
 
 
-#include <common/generic_subscriber.h>
-#include <common/serialization/filenames.h>
+#include <kitti/common/generic_subscriber.h>
+#include <kitti/common/serialization/filenames.h>
 
 #include <kitti/Sync_msg.h>
 

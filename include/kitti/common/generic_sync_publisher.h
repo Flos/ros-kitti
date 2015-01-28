@@ -16,11 +16,11 @@
 #include <sensor_msgs/Image.h>
 #include <tf/transform_listener.h>
 
-#include <common/serialization/filenames.h>
-#include <common/serialization/camera.h>
-#include <common/camera_subscriber.h>
-#include <common/pointcloud_subscriber.h>
-#include <common/generic_subscriber.h>
+#include <kitti/common/serialization/filenames.h>
+#include <kitti/common/serialization/camera.h>
+#include <kitti/common/camera_subscriber.h>
+#include <kitti/common/pointcloud_subscriber.h>
+#include <kitti/common/generic_subscriber.h>
 
 #include <boost/bind/protect.hpp>
 #include <boost/ref.hpp>

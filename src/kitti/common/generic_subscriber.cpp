@@ -5,7 +5,7 @@
  *      Author: fnolden
  */
 
-#include <common/generic_subscriber.h>
+#include <kitti/common/generic_subscriber.h>
 
 namespace kitti {
 

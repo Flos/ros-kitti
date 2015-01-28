@@ -6,9 +6,9 @@
  */
 
 //own
-#include <common/serialization/camera_list.h>
-#include <common/serialization/tf.h>
-#include <common/serialization/file_list.h>
+#include <kitti/common/serialization/camera_list.h>
+#include <kitti/common/serialization/tf.h>
+#include <kitti/common/serialization/file_list.h>
 #include <string>
 #include <sstream>
 #include <dirent.h>

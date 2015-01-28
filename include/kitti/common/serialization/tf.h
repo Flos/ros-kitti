@@ -19,7 +19,7 @@
 #include <image_geometry/pinhole_camera_model.h>
 
 //own
-#include <common/serialization/serializable.h>
+#include <kitti/common/serialization/serializable.h>
 
 #ifndef INCLUDE_KITTI_TF_H_
 #define INCLUDE_KITTI_TF_H_
