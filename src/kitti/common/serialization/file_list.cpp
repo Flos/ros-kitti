@@ -27,6 +27,14 @@ String_list::get_fullname(std::string &filepath, int index){
 	filepath = path + list.at(index);
 }
 
+std::string
+String_list::get_fullname(int index){
+	std::string fullname;
+	get_fullname(fullname,  index);
+
+	return fullname;
+}
+
 bool
 String_list::load(std::istream &stream){
 	std::string line;

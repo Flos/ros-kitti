@@ -6,6 +6,7 @@
  */
 
 #include <kitti/common/pointcloud_subscriber.h>
+#include <kitti/common/io/pointcloud_io.hpp>
 
 namespace kitti {
 

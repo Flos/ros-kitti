@@ -9,6 +9,8 @@
 #include <kitti/common/serialization/camera_list.h>
 #include <kitti/common/serialization/tf.h>
 #include <kitti/common/serialization/file_list.h>
+#include <kitti/common/io/image_file_list.hpp>
+#include <kitti/common/io/pointcloud_file_list.hpp>
 #include <string>
 #include <sstream>
 #include <dirent.h>
@@ -43,8 +45,8 @@ public:
 	Paths path;
 
 	Camera_list camera_list;
-	std::vector<String_list> camera_file_list;
-	String_list pointcloud_file_list;
+	std::vector<Image_file_list> camera_file_list;
+	Pointcloud_file_list<pcl::PointXYZI> pointcloud_file_list;
 	Tf velodyne_to_cam0;
 
 private:

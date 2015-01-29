@@ -27,6 +27,7 @@ public:
 	std::string path;
 	std::vector<std::string> list;
 	void get_fullname(std::string &filepath, int index);
+	std::string get_fullname(int index);
 	bool load( std::istream &stream);
 	std::string to_string();
 };

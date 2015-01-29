@@ -108,7 +108,7 @@ Dataset::load_camera_files(){
 	}
 
 	for(int i = 0; i < camera_list.cameras.size(); ++i){
-		String_list list;
+		Image_file_list list;
 
 		if(!get_files(path.camera_data.list.at(i), list)) return false;
 
@@ -155,7 +155,7 @@ Dataset::load_pointcloud_files(){
 		path.pcl_data = path.root_data_path + "velodyne_points/data/";
 	}
 
-	if(!get_files(path.pcl_data ,pointcloud_file_list)) return false;
+	if(!get_files(path.pcl_data, pointcloud_file_list)) return false;
 	return true;
 }
 
