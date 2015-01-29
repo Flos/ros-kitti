@@ -140,7 +140,6 @@ set(common
   src/${PROJECT_NAME}/common/serialization/camera.cpp
   src/${PROJECT_NAME}/common/serialization/dataset.cpp
   src/${PROJECT_NAME}/common/serialization/file_list.cpp
-  src/${PROJECT_NAME}/common/serialization/filenames.cpp
   src/${PROJECT_NAME}/common/serialization/serializable.cpp
   src/${PROJECT_NAME}/common/serialization/tf.cpp
   src/${PROJECT_NAME}/common/generic_subscriber.cpp
