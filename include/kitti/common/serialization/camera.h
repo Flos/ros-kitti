@@ -48,6 +48,7 @@ public:
 	void set_camera_info(sensor_msgs::CameraInfo info_msg);
 
 	void get_projection(Tf &tf);
+	bool get_camera_model(image_geometry::PinholeCameraModel &model);
 
 	Camera(int camera_nr = 0, std::string name = "image");
 	bool init(int camera_nr = 0, std::string name = "image");

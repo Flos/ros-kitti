@@ -78,6 +78,14 @@ Camera::get_camera_info(sensor_msgs::CameraInfo &info_msg){
 	info_msg.height = S_rect[1];
 }
 
+bool
+Camera::get_camera_model(image_geometry::PinholeCameraModel &model){
+	sensor_msgs::CameraInfo camera_info_msg;
+	get_camera_info(camera_info_msg);
+	return model.fromCameraInfo(camera_info_msg);
+
+}
+
 void
 Camera::set_camera_info(sensor_msgs::CameraInfo info_msg){
 
