@@ -108,7 +108,7 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::init(){
 	camera_nodes.resize(config_processed.image_topics.size());
 	for(int i = 0; i < config_processed.image_topics.size(); ++i){
 		camera_nodes.at(i).reset( new Camera_subscriber() );
-		camera_nodes.at(i)->init(nh, config_processed.image_topics.at(i), config.data_prefix, i, config.queue_size);
+		camera_nodes.at(i)->init(nh, config_processed.image_topics.at(i), config.data_prefix, i, config.queue_size, config.publish_topic);
 		camera_nodes.at(i)->create_image_info_sub(nh, config_processed.image_topics_info.at(i), config.queue_size);
 		if( !config_processed.image_frame_ids.at(i).empty()){
 			camera_nodes.at(i)->setFrame_id(config_processed.image_frame_ids.at(i));
