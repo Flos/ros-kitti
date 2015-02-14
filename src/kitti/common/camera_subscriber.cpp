@@ -19,6 +19,7 @@ bool
 Camera_subscriber::init(ros::NodeHandle &nh, std::string topic_name, std::string data_root, int camera_nr, int queue_size, std::string topic_sync){
 	Generic_subscriber::init(nh, topic_name, data_root, queue_size, topic_sync);
 	calibration.set_camera_nr(camera_nr);
+	nh.getParam("image_extension", image_extension);
 
 	return true;
 }

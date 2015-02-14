@@ -13,6 +13,7 @@
 	<arg name="tf_buffer_length"				default="30"/>
 	<arg name="queue_size"						default="30" />
 	<arg name="enabled"							default="1" />
+	<arg name="image_extension"					default=".jpg" />
     
     <group ns="kitti">
 	    <node pkg="kitti" type="export_node" name="$(arg name)" output="screen" >
@@ -35,6 +36,7 @@
 		  	<param name="queue_size"					value="$(arg queue_size)"	/>
 		  	
 		  	<param name="enabled" 						value="$(arg enabled)" />
+		  	<param name="image_extension"				value="$(arg image_extension)" />
 	    </node>
     </group>
 </launch>

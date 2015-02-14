@@ -35,6 +35,7 @@ public:
 
 	ros::Subscriber sub_info;
 
+	std::string image_extension;
 	bool calibration_valid;
 	kitti::Camera calibration;
 };
