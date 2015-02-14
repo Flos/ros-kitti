@@ -44,9 +44,9 @@ namespace filenames {
 	static void save_timestamp(std::string folder, unsigned int sequence, uint sec, uint nsec){
 		std::ofstream outfile;
 
-		folder.append("/").append(filenumber(sequence)).append(".txt");
+		folder.append("/").append("timestamps.txt");
 		outfile.open(folder.c_str(), std::ios_base::app);
-		outfile << sec << " " << nsec << "\n";
+		outfile << sequence << " \t" << sec << " \t" << nsec << "\n";
 	}
 
 	static bool make_folder_slash(std::string &filePath){
