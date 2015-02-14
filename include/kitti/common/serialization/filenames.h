@@ -60,7 +60,7 @@ namespace filenames {
 		return true;
 	}
 
-	static bool save_image_file(std::string data_root, cv::Mat image, int sequence, int camera_nr, uint sec, uint nsec){
+	static bool save_image_file(std::string data_root, cv::Mat image, int sequence, int camera_nr, uint sec, uint nsec, std::string extension=".jpg"){
 		std::stringstream stream;
 
 		char folder[9];
@@ -76,7 +76,7 @@ namespace filenames {
 
 		create_folder(stream.str());
 
-		stream << filenumber(sequence) << ".png";
+		stream << filenumber(sequence) << extension;
 
 		return kitti::io::save_image(stream.str(), image);
 	}
@@ -120,6 +120,8 @@ namespace filenames {
 		std::stringstream stream;
 
 		stream << data_root << folder_name <<"/";
+
+		create_folder(stream.str());
 
 		save_timestamp(stream.str(), sequence, sec, nsec);
 
