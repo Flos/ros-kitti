@@ -20,8 +20,11 @@ public:
 
 	float corner_dist;
 	std::vector<Camera> cameras;
+	Camera at(int index);
+	unsigned int size();
 
 	std::string to_string();
+
 	bool load( std::istream &stream);
 };
 

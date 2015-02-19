@@ -30,6 +30,15 @@ Camera_list::to_string(){
 
 	return ss.str();
 }
+Camera
+Camera_list::at(int index){
+	return cameras.at(index);
+}
+
+unsigned int
+Camera_list::size(){
+	return cameras.size();
+}
 
 bool
 Camera_list::load( std::istream &stream){
