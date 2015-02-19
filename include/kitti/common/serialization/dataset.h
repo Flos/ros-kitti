@@ -23,8 +23,9 @@ namespace kitti {
 struct Paths{
 	std::string config_file;
 
-	std::string tf_velodyne_to_cam0;
-	std::string camera_calib_file;
+	std::string calib_velo_to_cam;
+	std::string calib_cam_to_cam;
+	std::string calib_imu_to_velo;
 
 	std::string root_data_path;
 	std::string pcl_data;
@@ -37,6 +38,7 @@ public:
 	Dataset(std::string config);
 	bool init(std::string config);
 	bool load_config(std::string config);
+	bool load_path(std::string path);
 
 	bool check();
 

@@ -20,7 +20,10 @@ Dataset::Dataset( std::string config ){
 
 bool
 Dataset::init( std::string config ){
-	if (! load_config( config)) return false;
+	if( config.size() > 0  && config[config.size()-1] == '/') load_path(config);
+	else{
+		if (! load_config( config)) return false;
+	}
 	if (! load_cameras()) return false;
 	if (! load_camera_files()) return false;
 	if (! load_pointcloud_files()) return false;
@@ -34,6 +37,16 @@ void Dataset::extract_string(std::istringstream& in, std::string &file_path) {
 	std::istreambuf_iterator<char> it(in), end;
 	++it; // remove whitespace
 	std::copy(it, end, std::inserter(file_path, file_path.begin()));
+}
+
+bool
+Dataset::load_path(std::string data_root){
+	path.root_data_path = data_root;
+	path.calib_cam_to_cam = path.root_data_path + "calib_cam_to_cam.txt";
+	path.calib_imu_to_velo = path.root_data_path + "calib_imu_to_velo.txt";
+	path.calib_velo_to_cam = path.root_data_path + "calib_velo_to_cam.txt";
+
+	return true;
 }
 
 bool
@@ -57,13 +70,28 @@ Dataset::load_config( std::string config){
 
 			if(type == "camera_calib:")
 			{
-				extract_string(in, path.camera_calib_file);
-				std::cout << type << " " << path.camera_calib_file << "\n";
+				extract_string(in, path.calib_cam_to_cam);
+				std::cout << type << " " << path.calib_cam_to_cam << "\n";
 			}
 			if(type == "tf_velo_cam0:")
 			{
-				extract_string(in, path.tf_velodyne_to_cam0);
-				std::cout << type << " " << path.tf_velodyne_to_cam0 << "\n";
+				extract_string(in, path.calib_velo_to_cam);
+				std::cout << type << " " << path.calib_velo_to_cam << "\n";
+			}
+			if(type == "calib_imu_to_velo:")
+			{
+				extract_string(in, path.calib_imu_to_velo);
+				std::cout << type << " " << path.calib_imu_to_velo << "\n";
+			}
+			if(type == "calib_cam_to_cam:")
+			{
+				extract_string(in, path.calib_cam_to_cam);
+				std::cout << type << " " << path.calib_cam_to_cam << "\n";
+			}
+			if(type == "calib_velo_to_cam:")
+			{
+				extract_string(in, path.calib_velo_to_cam);
+				std::cout << type << " " << path.calib_velo_to_cam << "\n";
 			}
 			if(type == "data_root:")
 			{
@@ -95,7 +123,7 @@ Dataset::load_config( std::string config){
 
 bool
 Dataset::load_cameras(){
-	return camera_list.load_file(path.camera_calib_file );
+	return camera_list.load_file(path.calib_cam_to_cam );
 }
 
 bool
@@ -119,8 +147,8 @@ Dataset::load_camera_files(){
 
 bool
 Dataset::load_velodyne_to_cam_tf(){
-	if(path.tf_velodyne_to_cam0.empty() ) return true; // no path, empty tf, done
-	return velodyne_to_cam0.load_file(path.tf_velodyne_to_cam0);
+	if(path.calib_velo_to_cam.empty() ) return true; // no path, empty tf, done
+	return velodyne_to_cam0.load_file(path.calib_velo_to_cam);
 }
 
 bool
