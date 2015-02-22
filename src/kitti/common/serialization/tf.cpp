@@ -62,7 +62,7 @@ Tf::load( std::istream &stream){
 
 	while ( std::getline (stream, line) )
 	{
-		std::cout << line << '\n';
+		//std::cout << line << '\n';
 		std::istringstream in(line);      //make a stream for the line itself
 
 		std::string type;
@@ -86,7 +86,7 @@ Tf::load( std::istream &stream){
 			deserialize_array(in, delta_c, 2);
 		}
 	}
-	std::cout << "Got: " << to_string();
+	//std::cout << "Got: " << to_string();
 	return true;
 
 }

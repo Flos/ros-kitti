@@ -53,7 +53,7 @@ bool
 Dataset::load_config( std::string config){
 	path.config_file = config;
 
-	std::cout << "Reading config from: "<< config << '\n';
+	//std::cout << "Reading config from: "<< config << '\n';
 
 	std::ifstream stream(path.config_file.c_str());
 
@@ -71,44 +71,44 @@ Dataset::load_config( std::string config){
 			if(type == "camera_calib:")
 			{
 				extract_string(in, path.calib_cam_to_cam);
-				std::cout << type << " " << path.calib_cam_to_cam << "\n";
+				//std::cout << type << " " << path.calib_cam_to_cam << "\n";
 			}
 			if(type == "tf_velo_cam0:")
 			{
 				extract_string(in, path.calib_velo_to_cam);
-				std::cout << type << " " << path.calib_velo_to_cam << "\n";
+				//std::cout << type << " " << path.calib_velo_to_cam << "\n";
 			}
 			if(type == "calib_imu_to_velo:")
 			{
 				extract_string(in, path.calib_imu_to_velo);
-				std::cout << type << " " << path.calib_imu_to_velo << "\n";
+				//std::cout << type << " " << path.calib_imu_to_velo << "\n";
 			}
 			if(type == "calib_cam_to_cam:")
 			{
 				extract_string(in, path.calib_cam_to_cam);
-				std::cout << type << " " << path.calib_cam_to_cam << "\n";
+				//std::cout << type << " " << path.calib_cam_to_cam << "\n";
 			}
 			if(type == "calib_velo_to_cam:")
 			{
 				extract_string(in, path.calib_velo_to_cam);
-				std::cout << type << " " << path.calib_velo_to_cam << "\n";
+				//std::cout << type << " " << path.calib_velo_to_cam << "\n";
 			}
 			if(type == "data_root:")
 			{
 				extract_string(in, path.root_data_path);
-				std::cout << type << " " << path.root_data_path << "\n";
+				//std::cout << type << " " << path.root_data_path << "\n";
 			}
 			if(type == "pcl_data:")
 			{
 				extract_string(in, path.pcl_data);
-				std::cout << type << " " << path.pcl_data << "\n";
+				//std::cout << type << " " << path.pcl_data << "\n";
 			}
 			if(type == "camera_data:")
 			{
 				std::string camera_data;
 				extract_string(in, camera_data);
 				path.camera_data.list.push_back(camera_data);
-				std::cout << type << " " << camera_data << "\n";
+				//std::cout << type << " " << camera_data << "\n";
 			}
 		}
 
@@ -170,9 +170,6 @@ Dataset::check()
 		}
 	}
 
-	if(result){
-		std::cout << "Check: ok\n";
-	}
 	valid = result;
 	return valid;
 }
@@ -211,7 +208,7 @@ Dataset::get_files(std::string path, String_list &list){
 	  return false;
 	}
 
-	std::cout << "n: " <<  list.list.size() << " : "<< path << "\n";
+	//std::cout << "n: " <<  list.list.size() << " : "<< path << "\n";
 	return true;
 }
 

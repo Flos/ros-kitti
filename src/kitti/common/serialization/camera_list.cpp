@@ -46,7 +46,7 @@ Camera_list::load( std::istream &stream){
 	std::string line;
 	std::getline (stream, line); // Calib_time:
 
-	std::cout << line << '\n';
+	//std::cout << line << '\n';
 	std::istringstream in(line);      //make a stream for the line itself
 
 	std::string type;

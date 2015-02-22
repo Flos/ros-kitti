@@ -18,7 +18,7 @@ namespace io{
 	}
 
 	template <typename PointT>
-	inline bool load_pointcloud(std::string full_filepath, pcl::PointCloud<PointT> &pointcloud){
+	inline bool load_pointcloud(std::string full_filepath, pcl::PointCloud<PointT> &pointcloud, bool verbose=false){
 		try{
 			// Check extension...
 			int type = 0;
@@ -63,7 +63,9 @@ namespace io{
 				}
 
 			} /* switch end */
-			std::cout << "Loaded [" << pointcloud.size() << "] points from file ["<< full_filepath << "]\n";
+			if(verbose){
+				std::cout << "Loaded [" << pointcloud.size() << "] points from file ["<< full_filepath << "]\n";
+			}
 		}catch(std::exception &e){
 			return false;
 		}
