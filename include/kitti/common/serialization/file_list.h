@@ -30,6 +30,8 @@ public:
 	std::string get_fullname(int index);
 	bool load( std::istream &stream);
 	std::string to_string();
+	unsigned int size();
+	std::string at(int idx);
 };
 
 } /* namespace kitti */

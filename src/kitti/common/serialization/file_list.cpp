@@ -58,4 +58,14 @@ String_list::to_string(){
 	return ss.str();
 }
 
+unsigned int
+String_list::size(){
+	return list.size();
+}
+
+std::string
+String_list::at(int idx){
+	return list.at(idx);
+}
+
 } /* namespace image_cloud */
