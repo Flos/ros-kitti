@@ -31,7 +31,7 @@ public:
 	virtual void save( std::ostream &stream);
 	virtual bool save_file( std::string filename);
 	virtual bool load_file( std::string filename);
-
+	virtual bool create_folder(std::string dir);
 	virtual const std::string get_current_date_time();
 
 	virtual std::string to_string() = 0;

@@ -6,6 +6,7 @@
  */
 
 #include <kitti/common/serialization/serializable.h>
+#include <boost/filesystem.hpp>
 
 namespace kitti {
 
@@ -91,6 +92,8 @@ Serializable::save(std::ostream &stream){
 
 bool
 Serializable::save_file( std::string filename){
+	create_folder(filename);
+
 	std::ofstream myfile(filename.c_str());
 
 	if (myfile.is_open()) {
@@ -120,8 +123,22 @@ Serializable::load_file( std::string filename){
 		return false;
 	}
 	return true;
+}
+
+bool
+Serializable::create_folder(std::string dir){
+	 boost::filesystem::path path(dir);
+	 boost::filesystem::path path_without_filename = path.remove_filename();
+
+	if(!boost::filesystem::exists(path_without_filename)){
+		if(boost::filesystem::create_directories(path_without_filename))
+			{
+				std::cerr<< "Directory Created: " << dir << std::endl;
+			}
+	}
 
 
+	return true;
 }
 
 } /* namespace kitti */
