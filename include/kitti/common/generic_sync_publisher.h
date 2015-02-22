@@ -322,6 +322,10 @@ Generic_sync_publisher<MessageT, MessageTConstPtr>::reconfigure_callback(Config 
 template <typename MessageT, typename MessageTConstPtr>
 void
 Generic_sync_publisher<MessageT, MessageTConstPtr>::callback(const MessageTConstPtr &message){
+	if( message->header.stamp.sec == 0 && message->header.stamp.nsec == 0){
+		ROS_WARN("received empty timestamp on sync topic: %s", config.sync_topic.c_str());
+		return;
+	}
 	if(!config.enabled) return; //if publishing not enabled do nothing
 			kitti::Sync_msg sync_msg;
 
