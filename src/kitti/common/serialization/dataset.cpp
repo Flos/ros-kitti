@@ -156,7 +156,7 @@ Dataset::check()
 {
 	bool result = true;
 	if(camera_list.cameras.size() != path.camera_data.list.size()){
-		printf("Check: faild, %lu cameras but %lu camera data",camera_list.cameras.size(), path.camera_data.list.size());
+		printf("Check: faild, %lu cameras but %lu camera data\n",camera_list.cameras.size(), path.camera_data.list.size());
 		result = false;
 	}
 
@@ -165,7 +165,7 @@ Dataset::check()
 	int pointcloud_data_size = pointcloud_file_list.list.size();
 	for(int i = 0; i < camera_list.cameras.size(); ++i){
 		if(pointcloud_data_size != camera_file_list.at(i).list.size() ){
-			printf("Check: faild, directoty: %s, contains %lu, instead of %d files", camera_file_list.at(i).path.c_str(), camera_file_list.at(i).list.size(), pointcloud_data_size );
+			printf("Check: faild, directoty: %s, contains %lu, instead of %d files\n", camera_file_list.at(i).path.c_str(), camera_file_list.at(i).list.size(), pointcloud_data_size );
 			result = false;
 		}
 	}
