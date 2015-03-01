@@ -191,8 +191,6 @@ target_link_libraries(kitti
   ${catkin_LIBRARIES}
 )
 
-
-
 #############
 ## Install ##
 #############
