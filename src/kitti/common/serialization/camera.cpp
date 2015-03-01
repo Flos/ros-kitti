@@ -18,13 +18,7 @@ Camera::Camera(int camera_nr, std::string name)
 	set_zero(K, 9);
 	set_zero(D, 5);
 
-	set_zero(tf.R, 9);
-	set_zero(tf.T, 3);
-
 	set_zero(S_rect, 2);
-	set_zero(tf_rect.R, 9);
-	set_zero(tf_rect.T, 3);
-
 	set_zero(P_rect, 12);
 
 	set_camera_nr(camera_nr);
@@ -104,6 +98,12 @@ Camera::set_camera_info(sensor_msgs::CameraInfo info_msg){
 	for(int i = 0; i < info_msg.P.size(); ++i){
 		P_rect[i] = info_msg.P[i];
 	}
+
+	S_rect[0] = info_msg.width;
+	S_rect[1] = info_msg.height;
+
+	S[0] = info_msg.width;
+	S[1] = info_msg.height;
 
 	frame_id = info_msg.header.frame_id;
 }
