@@ -132,9 +132,12 @@ Serializable::create_folder(std::string dir){
 
 	if(!boost::filesystem::exists(path_without_filename)){
 		if(boost::filesystem::create_directories(path_without_filename))
-			{
-				std::cerr<< "Directory Created: " << dir << std::endl;
-			}
+		{
+			std::cerr<< "Directory created: " << path_without_filename << std::endl;
+		}
+		else{
+			std::cout << "Failed to create directory:\t" << path_without_filename << std::endl;
+		}
 	}
 
 
