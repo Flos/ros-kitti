@@ -24,29 +24,54 @@ namespace kitti {
 
 namespace filenames {
 
-	static bool create_folder(std::string filePath){
-		boost::filesystem::path dir(filePath);
-		if(boost::filesystem::create_directories(dir))
-		{
-			std::cerr<< "Directory Created: "<< filePath << std::endl;
-		}
+	static bool create_folder(std::string dir) {
+		 boost::filesystem::path path(dir);
+		 boost::filesystem::path path_without_filename = path.remove_filename();
 
+		if(!boost::filesystem::exists(path_without_filename)){
+			if(boost::filesystem::create_directories(path_without_filename))
+			{
+				std::cerr << "Directory created:\t" << path_without_filename << std::endl;
+			}
+			else{
+				std::cout << "Failed to create directory:\t" << path_without_filename << std::endl;
+			}
+		}
 		return true;
 	}
 
-	static std::string filenumber(unsigned int sequence){
+	static std::string sequence_number(unsigned int sequence){
 				char image_name[10];
-				sprintf(image_name,"/%010u", sequence);
+				sprintf(image_name,"%010u", sequence);
 				return std::string(image_name);
 	}
 
+	static std::string filenumber(unsigned int sequence){
+				return std::string("/"+sequence_number(sequence));
+	}
 
 	static void save_timestamp(std::string folder, unsigned int sequence, uint sec, uint nsec){
-		std::ofstream outfile;
+		folder.append("/");
 
-		folder.append("/").append("timestamps.txt");
-		outfile.open(folder.c_str(), std::ios_base::app);
-		outfile << sequence << " \t" << sec << " \t" << nsec << "\n";
+		create_folder(folder);
+
+		std::string filename_idx_file = folder + "idx.txt";
+		std::string filename_timestamps = folder+ "timestamps.txt";
+
+		{
+			std::ofstream timestamps;
+
+			timestamps.open(filename_timestamps.c_str(), std::ios_base::app);
+				timestamps << sec << " \t" << nsec << "\n";
+			timestamps.close();
+		}
+		{
+			std::ofstream file_idx;
+
+			file_idx.open(filename_idx_file.c_str(), std::ios_base::app);
+				file_idx << sequence << "\n";
+			file_idx.close();
+		}
 	}
 
 	static bool make_folder_slash(std::string &filePath){
@@ -67,8 +92,6 @@ namespace filenames {
 		sprintf(folder,"image_%02d/", camera_nr);
 
 		stream << data_root << folder;
-
-		create_folder(stream.str());
 
 		save_timestamp(stream.str(), sequence, sec, nsec);
 
