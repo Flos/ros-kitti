@@ -39,6 +39,8 @@ public:
 	bool init(std::string config);
 	bool load_config(std::string config);
 	bool load_path(std::string path);
+//	void transform_points_to_origin(int camera,		pcl::PointCloud<pcl::PointXYZI>& points);
+//	void transform_points_to_camera(int camera,		pcl::PointCloud<pcl::PointXYZI>& points);
 
 	bool check();
 

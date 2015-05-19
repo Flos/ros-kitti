@@ -212,4 +212,30 @@ Dataset::get_files(std::string path, String_list &list){
 	return true;
 }
 
+//void
+//Dataset::transform_points_to_origin(int camera, pcl::PointCloud<pcl::PointXYZI>& points) {
+//
+//	// look up transforms
+//	tf::Transform velo_to_cam0, cam0_to_cam;
+//	velodyne_to_cam0.get_transform(velo_to_cam0);
+//	camera_list.cameras.at(camera).tf_rect.get_transform(cam0_to_cam);
+//
+//	// Transform points in reverse order using the inverse tf
+//	image_cloud::transform_pointcloud(points, cam0_to_cam.inverse());
+//	image_cloud::transform_pointcloud(points, velo_to_cam0.inverse());
+//}
+//
+//void
+//Dataset::transform_points_to_camera(int camera, pcl::PointCloud<pcl::PointXYZI>& points) {
+//
+//	// look up transforms
+//	tf::Transform velo_to_cam0, cam0_to_cam;
+//	velodyne_to_cam0.get_transform(velo_to_cam0);
+//	camera_list.cameras.at(camera).tf_rect.get_transform(cam0_to_cam);
+//
+//	// Transform points
+//	image_cloud::transform_pointcloud(points, velo_to_cam0);
+//	image_cloud::transform_pointcloud(points, cam0_to_cam);
+//}
+
 } /* namespace kitti */
